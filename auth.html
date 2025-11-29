@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Autenticación Google</title>
+
+    <meta name="google-signin-client_id"
+          content="342769047778-jc52eh3n59a3vjocagmomi8pln5kbqv3.apps.googleusercontent.com">
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+            background:#f4f4f4;
+        }
+        .box {
+            background:white;
+            padding:30px;
+            border-radius:12px;
+            width:350px;
+            text-align:center;
+            box-shadow:0 0 10px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Verificando cuenta...</h2>
+
+    <div id="g_id_onload"
+         data-client_id="342769047778-jc52eh3n59a3vjocagmomi8pln5kbqv3.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-callback="authComplete">
+    </div>
+
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="rectangular"
+         data-theme="outline"
+         data-text="signin_with"
+         data-size="large">
+    </div>
+</div>
+
+<script>
+function authComplete(response) {
+    const token = response.credential;
+    const user = JSON.parse(atob(token.split('.')[1]));
+
+    // Guardar datos para otras páginas
+    localStorage.setItem("googleUser", JSON.stringify(user));
+    localStorage.setItem("googleToken", token);
+
+    // Redirigir automáticamente a la página de regalos
+    window.location.href = "regalos.html";
+}
+</script>
+
+</body>
+</html>
