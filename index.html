@@ -80,23 +80,23 @@ p  { font-size:16px; line-height:1.4; }
 
 .card-content { padding:16px; }
 
-/* Tarjeta agotada */
+/* Tarjeta agotada con banner inferior */
 .agotado {
-  opacity:0.4;
+  opacity:0.5;
   pointer-events:none;
 }
-.agotado::after {
-  content:"Ya fue elegido";
+.agotado .agotado-banner {
   position:absolute;
-  top:10px;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(212,175,55,0.9);
+  bottom:0;
+  width:100%;
+  background:rgba(212,175,55,0.95);
   color:white;
-  padding:4px 10px;
-  border-radius:8px;
+  text-align:center;
+  padding:6px 0;
   font-weight:bold;
   font-size:14px;
+  border-top-left-radius:0;
+  border-top-right-radius:0;
 }
 
 /* Botón confirmar dorado */
@@ -257,6 +257,7 @@ async function cargarCatalogo() {
         <h3>${item.nombre}</h3>
         <p>${item.descripcion || ''}</p>
       </div>
+      ${item.stockRestante <= 0 ? '<div class="agotado-banner">Ya fue elegido</div>' : ''}
     `;
 
     card.onclick = () => toggle(item.id, card);
