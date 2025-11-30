@@ -22,6 +22,24 @@
 
   .hidden { display:none; }
 
+  /* ⭐⭐⭐ CENTRADO REAL DEL BOTÓN DE GOOGLE ⭐⭐⭐ */
+  #google-btn-wrapper {
+    width: 100%;
+    display:flex;
+    justify-content:center;
+    margin-top:20px;
+  }
+
+  /* Fuerza a Google a NO mover el botón */
+  .g_id_signin,
+  #g_id_onload,
+  div[role="presentation"],
+  div[role="button"] {
+    margin: 0 auto !important;
+    display:flex !important;
+    justify-content:center !important;
+  }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax(260px,1fr));
@@ -44,9 +62,8 @@
     box-shadow:0 6px 16px rgba(0,0,0,0.12);
   }
 
-  /* ⭐ Tarjeta seleccionada (ESTILO PREMIUM DE BODA) */
   .selected {
-    border:3px solid #d4af37 !important; /* dorado */
+    border:3px solid #d4af37 !important;
     box-shadow:0 6px 18px rgba(212,175,55,0.6) !important;
     transform: scale(1.02);
   }
@@ -89,15 +106,18 @@
   <h2>Nos ayudarías mucho con estas cosas que nos faltan ❤️</h2>
   <p>Ingresá con tu cuenta de Google y seleccioná lo que desees regalarnos.</p>
 
-  <div id="g_id_onload"
-    data-client_id="342769047778-jc52eh3n59a3vjocagmomi8pln5kbqv3.apps.googleusercontent.com"
-    data-callback="handleCredentialResponse">
-  </div>
+  <!-- ⭐ CONTENEDOR NUEVO DEL BOTÓN GOOGLE ⭐ -->
+  <div id="google-btn-wrapper">
+      <div id="g_id_onload"
+        data-client_id="342769047778-jc52eh3n59a3vjocagmomi8pln5kbqv3.apps.googleusercontent.com"
+        data-callback="handleCredentialResponse">
+      </div>
 
-  <div class="g_id_signin"
-    data-type="standard"
-    data-size="large"
-    data-theme="filled_blue">
+      <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="filled_blue">
+      </div>
   </div>
 </div>
 
@@ -137,13 +157,11 @@ async function handleCredentialResponse(response) {
     email: payload.email.trim().toLowerCase()
   };
 
-  // BLOQUEO LOCAL
   if (localStorage.getItem("respondio_" + usuario.email)) {
     mostrarMensajeFinal();
     return;
   }
 
-  // BLOQUEO BACKEND
   const valid = await fetch(API + "?email=" + usuario.email);
   const result = await valid.json();
 
@@ -153,7 +171,6 @@ async function handleCredentialResponse(response) {
     return;
   }
 
-  // Mostrar catálogo
   document.getElementById("welcome").classList.add("hidden");
   document.getElementById("catalogo").classList.remove("hidden");
   cargarCatalogo();
@@ -230,4 +247,3 @@ document.getElementById("confirm-btn").onclick = async () => {
 
 </body>
 </html>
-
